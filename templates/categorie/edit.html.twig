@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier catégorie{% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column justify-content-center col-6">
+        <br>
+        <h1 class="text-center mt-5">Modification de la catégorie</h1>
+        <br>
+        <div class="alert-success rounded text-center">
+            {{ confirmation }}
+        </div>
+        <div class="alert-danger rounded text-center">
+            {{ error }}
+        </div>
+        <br>
+        {{ include('categorie/_form.html.twig', {'button_label': 'Valider'}) }}
+        <br>
+    </div>
+{% endblock %}

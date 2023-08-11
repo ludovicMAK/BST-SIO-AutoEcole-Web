@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moniteur{% endblock %}
+
+{% block body %}
+    <h1>Moniteur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ moniteur.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ moniteur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ moniteur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ moniteur.sexe }}</td>
+            </tr>
+            <tr>
+                <th>DateDeNaissance</th>
+                <td>{{ moniteur.dateDeNaissance ? moniteur.dateDeNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ moniteur.adresse }}</td>
+            </tr>
+            <tr>
+                <th>CodePostal</th>
+                <td>{{ moniteur.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ moniteur.ville }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ moniteur.telephone }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_moniteur_index') }}">back to list</a>
+
+    <a href="{{ path('app_moniteur_edit', {'id': moniteur.id}) }}">edit</a>
+
+    {{ include('moniteur/_delete_form.html.twig') }}
+{% endblock %}

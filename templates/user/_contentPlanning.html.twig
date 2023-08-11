@@ -1,0 +1,54 @@
+{% block body%}
+    <div id="container" class="container">
+
+        <div class="modal fade" id="modalLecon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLeconTitle"></h5>
+                        <button type="button" class="btn-close ferme"  aria-label="Close"></button>
+                    </div>
+                    <div id="modalLeconBody" class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary ferme" >Retour</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container d-flex flex-column justify-content-center col-12">
+            <br>
+            <h1 class="text-center">Planning </h1>
+            <br>
+            {# Navigation #}
+            <div class="mt-5 d-flex flex-row justify-content-between col-8 row align-self-center">
+                <div class="form-floating w-25">
+                    <select class="form-select" id="selectCategorie">
+                        <option>Toutes</option>
+                        {% for categorie in categories %}
+                            <option>{{ categorie.libelle }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="floatingSelect">Choisissez une catégorie</label>
+                </div>
+                <div id="alert" class="alert alert-warning w-25 text-center visually-hidden"></div>
+
+            </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-between">
+
+        </div>
+        <div class="container d-flex justify-content-center">
+            <div id="calendar" style="width: 70%;">
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

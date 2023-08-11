@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation du mail{% endblock %}
+
+{% block body %}
+    <div class="container flex-column col-5">
+        <h1 class="text-center">Le lien a expiré</h1>
+        <div class="alert-danger rounded">{{ error }}</div>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-outline-success">{{ button_label|default('Envoyer') }}</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

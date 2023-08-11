@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <header class="flex-row-reverse justify-content-end">
+        <h1 class="text-center">Bienvenue {{ login }}</h1>
+        <form method="POST" action="{{ path("app_vehicule_index") }}">
+            <input class="form-control" type="submit" value="Gestionnaire de véhicules">
+            {% dump app.user %}
+        </form>
+        <br>
+        <form method="POST" action="{{ path("app_categorie_index") }}">
+            <input class="form-control" type="submit" value="Gestionnaire de catégories">
+            {% dump app.user %}
+        </form>
+        <br>
+        <form method="POST" action="{{ path("app_moniteur_new") }}">
+            <input class="form-control" type="submit" value="Ajouter un moniteur">
+            {% dump app.user %}
+        </form>
+        <br>
+        <form method="POST" action="{{ path("app_user_planning") }}">
+            <input class="form-control" type="submit" value="Consulter planning">
+        </form>
+        <br>
+        <form method="POST" action="{{ path("app_user_statistiques") }}">
+            <input class="form-control" type="submit" value="Statistiques">
+        </form>
+        <br>
+        <a class="form-control text-center text-decoration-none" href="/logout">Déconnexion</a>
+    </header>
+{% endblock %}

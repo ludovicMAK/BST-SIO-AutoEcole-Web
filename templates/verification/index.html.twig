@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verification index{% endblock %}
+
+{% block body %}
+    <h1>Verification index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for verification in verifications %}
+            <tr>
+                <td>{{ verification.id }}</td>
+                <td>{{ verification.code }}</td>
+                <td>
+                    <a href="{{ path('app_verification_show', {'id': verification.id}) }}">show</a>
+                    <a href="{{ path('app_verification_edit', {'id': verification.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_verification_new') }}">Create new</a>
+{% endblock %}

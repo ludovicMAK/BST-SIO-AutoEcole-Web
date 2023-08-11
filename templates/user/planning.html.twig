@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        table{
+            border: black;
+        }
+        table::-webkit-scrollbar{
+            display: none;
+        }
+        .w-97{
+            width: 97%;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Planning {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <form class="w-25" method="POST" action="{{ path("app_user_dashboard") }}">
+            <input class="form-control btn btn-outline-secondary w-50" type="submit" value="Retour">
+        </form>
+        <br>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <button class="nav-link active" value="eleve">Elève</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link " value="moniteur">Moniteur</button>
+            </li>
+
+        </ul>
+    </div>
+
+    <div id="partiEleve">
+        <div >
+            <form id="searchEleve">
+                <label>chercher un élève :</label>
+                <br>
+                <input type="text" name="eleveNom" id="eleveNom" placeholder="Rechercher un élève">
+                <input type="hidden" name="eleveSelectionne" id="eleveSelectionne" value="0">
+            </form>
+
+        </div>
+
+        <div class="col-xs1 col-sm4 " id="contentSearchEleve">
+            {% include "user/_contentSearchEleve.html.twig" %}
+        </div>
+
+    </div>
+
+    <div id="partiMoniteur">
+        <div >
+            <form id="searchMoniteur">
+                <label>chercher un moniteur :</label>
+                <br>
+                <input type="text" name="moniteurNom" id="moniteurNom" placeholder="Rechercher un moniteur">
+                <input type="hidden" name="moniteurSelectionne" id="moniteurSelectionne" value="0">
+            </form>
+        </div>
+        <div class="col-xs1 col-sm4 " id="contentSearchMoniteur">
+            {% include "user/_contentSearchMoniteur.html.twig" %}
+        </div>
+
+    </div>
+    <div class="col-xs1 col-sm4 " id="contentPlanningEleve">
+        {% include "user/_contentPlanning.html.twig" %}
+    </div>
+
+    <script>
+
+        afficherPlanning = (data)=>{
+            let donne =  data ;
+            let calendarElements;
+            calendarElements = document.querySelector('#calendar');
+
+            let calendar = new FullCalendar.Calendar(calendarElements, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                headerToolbar: {
+                    start: 'dayGridWeek,dayGridMonth',
+                    center: 'title',
+                    end: 'prev,today,next',
+                },
+                dayMaxEventRows: 3,
+                moreLinkClassNames: 'btn-outline-secondary',
+                dayHeaderFormat: {
+                    weekday: 'long',
+                },
+                firstDay: 1,
+                eventDisplay: 'block',
+                eventClick: function(info) {
+                    document.getElementById('modalLeconTitle').innerHTML = info.event.title;
+                    document.getElementById('modalLeconBody').innerHTML = info.event.extendedProps.description;
+                    bootstrap.Modal.getOrCreateInstance(document.getElementById('modalLecon')).show();
+                },
+                events: donne,
+            });
+            calendar.render();
+        }
+        afficherPlanning([]);
+
+
+        document.querySelector('#partiMoniteur').classList.add('d-none')
+        const onglets = document.querySelectorAll('.nav-link');
+
+        onglets.forEach(onglet => {
+            onglet.addEventListener('click', elem => {
+
+                onglets.forEach(onglet => onglet.classList.remove('active'));
+                onglet.classList.add('active');
+                if (elem.target.value == 'moniteur'){
+                    document.querySelector('#partiEleve').classList.add('d-none')
+                    document.querySelector('#partiMoniteur').classList.remove('d-none')
+
+                }else {
+                    document.querySelector('#partiEleve').classList.remove('d-none')
+                    document.querySelector('#partiMoniteur').classList.add('d-none')
+
+                }
+                afficherPlanning([]);
+            });
+        });
+
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/ajaxPlanningGerante.js') }}"></script>
+{% endblock %}

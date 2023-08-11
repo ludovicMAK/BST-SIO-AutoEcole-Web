@@ -1,0 +1,9 @@
+{% block body%}
+        <ul class="list-group lesEleves ">
+            {% for Eleve in lesEleves %}
+               <li class="list-group-item list-group-item-action unEleve" value="{{ Eleve.id }}" > {{ Eleve.nom }} {{ Eleve.prenom }} </li>
+            {% endfor %}
+        </ul>
+{% endblock %}
+
+

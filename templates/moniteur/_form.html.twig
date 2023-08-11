@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+<br>
+<div class="d-flex justify-content-between">
+    <a href="{{ path(pathApp) }}" class="btn btn-outline-secondary w-25">Retour</a>
+    <button class="btn btn-outline-success w-25">{{ button_label|default('Confirmer') }}</button>
+</div>
+{{ form_end(form) }}

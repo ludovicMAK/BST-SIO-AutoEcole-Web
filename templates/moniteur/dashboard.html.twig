@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moniteur index{% endblock %}
+
+{% block body %}
+    <header class="flex-row-reverse justify-content-end">
+        <h1 class="text-center">Bienvenue {{ login }}</h1>
+        <form method="POST" action="{{ path("app_moniteur_edit") }}">
+            <input class="form-control" type="submit" value="Profil">
+            {% dump app.user %}
+        </form>
+        <br>
+        <form method="POST" action="{{ path("app_moniteur_statistique") }}">
+            <input class="form-control" type="submit" value="Statistique">
+            {% dump app.user %}
+        </form>
+        <br>
+        <form method="POST" action="{{ path("app_moniteur_addLicence") }}">
+            <input class="form-control" type="submit" value="Ajouter une licence">
+            {% dump app.user %}
+        </form>
+        <br>
+        <form method="POST" action="{{ path("app_moniteur_planning") }}">
+            <input class="form-control" type="submit" value="Planning">
+            {% dump app.user %}
+        </form>
+        <br>
+        <a class="form-control text-center text-decoration-none" href="/logout">Déconnexion</a>
+    </header>
+
+{% endblock %}

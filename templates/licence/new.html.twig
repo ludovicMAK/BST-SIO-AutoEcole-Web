@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Licence{% endblock %}
+
+{% block body %}
+
+    <h1>Création d'une licence</h1>
+    {{ include('licence/_form.html.twig') }}
+
+    <form class="w-25" method="POST" action="{{ path("app_moniteur_dashboard") }}">
+        <input class="form-control btn btn-outline-secondary w-25" type="submit" value="Retour">
+    </form>
+    {% if messageErreur is defined %}
+
+        <div class="alert-danger text-center mt-2 rounded">{{messageErreur  }}</div>
+    {% endif %}
+{% endblock %}

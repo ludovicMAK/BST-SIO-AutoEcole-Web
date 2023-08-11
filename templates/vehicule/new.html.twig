@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un véhicule{% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column justify-content-center col-6">
+        <br>
+        <h1 class="text-center">Ajouter un véhicule</h1>
+        <br>
+        <div class="alert-danger text-center rounded mt-5">{{ error }}</div>
+        <br>
+        {{ include('vehicule/_form.html.twig') }}
+        <br>
+    </div>
+{% endblock %}

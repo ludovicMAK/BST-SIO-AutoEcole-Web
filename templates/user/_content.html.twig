@@ -1,0 +1,47 @@
+{% block body %}
+    {% if not vehiculesLesPlusUtilises %}
+        <div class="alert alert-warning d-flex justify-content-center align-content-center">
+            <p>Il n'y a pas de leçons en rapport avec cette catégorie de véhicule.</p>
+        </div>
+    {% else %}
+        <br>
+        <h2 class="text-center">Les véhicules les plus utilisés</h2>
+        <br>
+        <table class="table">
+            <tr>
+                <th>Nombres de leçons</th>
+                <th>Catégorie</th>
+                <th>Marque</th>
+                <th>Modèle</th>
+            </tr>
+            {% for vehicule in vehiculesLesPlusUtilises %}
+                <tr>
+                    <td>{{ vehicule['nbUtilMax'] }}</td>
+                    <td>{{ vehicule['libelle'] }}</td>
+                    <td>{{ vehicule['marque'] }}</td>
+                    <td>{{ vehicule['modele'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <h2 class="text-center">Les moniteurs les plus solicités</h2>
+        <br>
+        <table class="table">
+            <tr>
+                <th>Nombres de leçons</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+            </tr>
+            {% for moniteur in moniteursLesPlusSolicites %}
+                <tr>
+                    <td>{{ moniteur['maxNbLecons'] }}</td>
+                    <td>{{ moniteur['prenom'] }}</td>
+                    <td>{{ moniteur['nom'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+
+
+    {% endif %}
+{% endblock %}

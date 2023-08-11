@@ -1,0 +1,6 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+app_email_inscription:
+  path: /email/inscription
+  controller: App\Controller\MailerController::sendEmail

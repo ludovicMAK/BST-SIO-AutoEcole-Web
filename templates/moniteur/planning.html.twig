@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        table{
+            border: black;
+        }
+        table::-webkit-scrollbar{
+            display: none;
+        }
+        .w-97{
+            width: 97%;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Planning{% endblock %}
+
+{% block body %}
+    <div id="container" class="container">
+
+        <div class="modal fade" id="modalLecon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLeconTitle"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="modalLeconBody" class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container d-flex flex-column justify-content-center col-12">
+            <br>
+            <h1 class="text-center">Planning</h1>
+            <br>
+            {# Navigation #}
+            <div class="mt-5 d-flex flex-row justify-content-between col-8 row align-self-center">
+                <div class="form-floating w-25">
+                    <select class="form-select" id="selectCategorie">
+                        <option>Toutes</option>
+                        {% for categorie in categories %}
+                            <option>{{ categorie.libelle }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="floatingSelect">Choisissez une catégorie</label>
+                </div>
+                <div id="alert" class="alert alert-warning w-25 text-center visually-hidden"></div>
+                <form class="w-25" method="POST" action="{{ path("app_moniteur_dashboard") }}">
+                    <input class="form-control btn btn-outline-secondary w-50" type="submit" value="Retour">
+                </form>
+            </div>
+        </div>
+        <br>
+        <div class="container d-flex justify-content-center">
+            <div id="calendar" style="width: 70%;">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        window.onload=()=>{
+            //On charge toutes les leçons au premier chargement
+            let data = {{ data|raw }};
+            let calendarElements = document.querySelector('#calendar');
+            let calendar = new FullCalendar.Calendar(calendarElements, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                headerToolbar: {
+                    start: 'dayGridWeek,dayGridMonth',
+                    center: 'title',
+                    end: 'prev,today,next',
+                },
+                dayMaxEventRows: 3,
+                moreLinkClassNames: 'btn-outline-secondary',
+                dayHeaderFormat: {
+                    weekday: 'long',
+                },
+                firstDay: 1,
+                eventDisplay: 'block',
+                eventClick: function(info) {
+                    /*alert('Event: ' + info.event.title);*/
+                    document.getElementById('modalLeconTitle').innerHTML = info.event.title;
+                    document.getElementById('modalLeconBody').innerHTML = info.event.extendedProps.description;
+                    bootstrap.Modal.getOrCreateInstance(document.getElementById('modalLecon')).show();
+                },
+                events: data,
+            });
+            calendar.render();
+
+
+
+            $('#selectCategorie').change(function(){
+                let dataByCategorie = '[]';
+                let categorieChoisie = $('#selectCategorie').find(":selected").text();
+                if(categorieChoisie === 'Toutes'){
+                    dataByCategorie = data;
+                }
+                else{
+                    for(let obj of data){
+                        if(obj['title'] === categorieChoisie){
+                            let jsonarray = JSON.parse(dataByCategorie);
+                            jsonarray.push(obj);
+                            dataByCategorie = JSON.stringify(jsonarray);
+                        }
+                    }
+                    if(dataByCategorie === '[]'){
+                        document.getElementById('alert').innerHTML = "Vous n'avez aucune leçon pour la catégorie: "+categorieChoisie;
+                        document.getElementById('alert').classList.remove('visually-hidden');
+                    }
+                    else{
+                        document.getElementById('alert').classList.add('visually-hidden');
+                    }
+                    dataByCategorie = JSON.parse(dataByCategorie);
+                }
+
+
+
+                let calendar = new FullCalendar.Calendar(calendarElements, {
+                    initialView: 'dayGridMonth',
+                    locale: 'fr',
+                    headerToolbar: {
+                        start: 'dayGridWeek,dayGridMonth',
+                        center: 'title',
+                        end: 'prev,today,next',
+                    },
+                    dayMaxEventRows: 3,
+                    moreLinkClassNames: 'btn-outline-secondary',
+                    dayHeaderFormat: {
+                        weekday: 'long',
+                    },
+                    firstDay: 1,
+                    eventDisplay: 'block',
+                    eventClick: function(info) {
+                        /*alert('Event: ' + info.event.title);*/
+                        document.getElementById('modalLeconTitle').innerHTML = info.event.title;
+                        document.getElementById('modalLeconBody').innerHTML = info.event.extendedProps.description;
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('modalLecon')).show();
+                    },
+                    events: dataByCategorie,
+                });
+                calendar.render();
+            });
+
+            /*$('.btn-outline-info').click(function(){
+                alert()
+            });*/
+        }
+    </script>
+{% endblock %}

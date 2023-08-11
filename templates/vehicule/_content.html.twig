@@ -1,0 +1,38 @@
+{% block body%}
+    <table class="table">
+        <thead class="text-center">
+        <tr>
+            <th>Catégorie</th>
+            <th>Id</th>
+            <th>Immatriculation</th>
+            <th>Marque</th>
+            <th>Modele</th>
+            <th>Annee</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="tbody" class="text-center">
+            {% if lesVehicules is empty %}
+                <tr>Il n'y a pas de véhicule</tr>
+            {% elseif not lesVehicules is empty %}
+                {% for vehicule in lesVehicules %}
+                    <tr>
+                        <td>{{ vehicule.categorie.libelle }}</td>
+                        <td>{{ vehicule.id }}</td>
+                        <td>{{ vehicule.immatriculation }}</td>
+                        <td>{{ vehicule.marque }}</td>
+                        <td>{{ vehicule.modele }}</td>
+                        <td>{{ vehicule.annee }}</td>
+                        <td>
+                            <div class='input-group d-flex justify-content-center'>
+                                <a class='btn btn-outline-primary' href='{{ path('app_vehicule_edit', {'id': vehicule.id}) }}'>Modifier</a>
+                                {{ include('vehicule/_delete_form.html.twig') }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

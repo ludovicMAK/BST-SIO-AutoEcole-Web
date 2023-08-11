@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestionnaire véhicule{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-5">Gestion des véhicules</h1>
+    <div class="mt-5 d-flex flex-row">
+        {#Select#}
+        <form id="formCategorie" class="form-floating w-50">
+            <select name="categorie" class="form-select" id="selectCategorie">
+                <option>Toutes</option>
+                {% for categorie in lesCategories %}
+                    <option>{{ categorie.libelle }}</option>
+                {% endfor %}
+            </select>
+            <label for="selectCategorie">Choisissez une catégorie</label>
+        </form>
+        {#Navigation#}
+        <div class="input-group w-50 d-flex flex-row justify-content-evenly align-content-end">
+            <form class="w-50" method="POST" action="{{ path("app_vehicule_new") }}">
+                <input class="form-control btn btn-outline-primary w-100" type="submit" value="Ajouter un véhicule">
+            </form>
+            <form class="w-25" method="POST" action="{{ path("app_user_dashboard") }}">
+                <input class="form-control btn btn-outline-secondary w-100" type="submit" value="Retour">
+            </form>
+        </div>
+    </div>
+    <br>
+    <div id="content">
+        {% include "vehicule/_content.html.twig" %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/ajaxVehicule.js') }}"></script>
+{% endblock %}

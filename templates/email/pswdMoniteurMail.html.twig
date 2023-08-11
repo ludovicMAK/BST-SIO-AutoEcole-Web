@@ -1,0 +1,9 @@
+{# templates/emails/signup.html.twig #}
+<h1>Bonjour {{ moniteur.prenom }} {{ moniteur.nom }}, tu as été inscrit sur TurboPermis en tant que moniteur!</h1>
+
+<p>Tu peux te connecter avec ces identifiants:</p>
+<li>
+    <ul>Login: {{ moniteur.user.login }}</ul>
+    <ul>Mot de passe: {{ password }}</ul>
+</li>
+<p>Lors de ta première connection il te sera demander de change de mot de passe.</p>

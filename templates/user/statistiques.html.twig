@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-5">Statistiques</h1>
+    <div class="mt-5 d-flex flex-row">
+        {#Select#}
+        <form id="formCategorie" class="form-floating w-50">
+            <select name="categorie" class="form-select" id="selectCategorie">
+                <option>Toutes</option>
+                {% for categorie in categories %}
+                    <option>{{ categorie.libelle }}</option>
+                {% endfor %}
+            </select>
+            <label for="selectCategorie">Choisissez une catégorie</label>
+        </form>
+        {#Navigation#}
+        <div class="input-group w-50 d-flex flex-row justify-content-evenly align-content-end">
+            <form class="w-25" method="POST" action="{{ path("app_user_dashboard") }}">
+                <input class="form-control btn btn-outline-secondary w-100" type="submit" value="Retour">
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="d-flex flex-row w-100">
+        <div class="col w-50" id="content">
+            {% include "user/_content.html.twig" %}
+        </div>
+        <div class="w-50 d-flex flex-column justify-content-center">
+            <h2 class="text-center">Pourcentage de leçons par catégorie</h2>
+            <canvas class="align-self-center" id="pourcentagesByCategorie"></canvas>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let lesCategories = {{ categoriesJSON|raw }};
+        let lesDataStat = {{ pourcentagesLeconsByCategorie|raw }};
+        let lesCouleurs = [];
+        let i=0;
+        for(let categorie in lesCategories){
+            let couleur = 'rgba('+Math.floor(Math.random() * (255 - 0 + 1) + 0)+',';
+            couleur += Math.floor(Math.random() * (255 - 0 + 1) + 0)+',';
+            couleur += Math.floor(Math.random() * (255 - 0 + 1) + 0)+',';
+            couleur += '0.5)';
+            lesCouleurs.push(couleur);
+        }
+
+
+        const cda = document.getElementById('pourcentagesByCategorie');
+        var myChart = new Chart(cda, {
+            type: 'doughnut',
+            data: {
+                labels: lesCategories,
+                datasets: [{
+                    label: 'Nombre de lecon',
+                    data: lesDataStat,
+                    backgroundColor: lesCouleurs,
+                    borderColor: lesCouleurs,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                title: {
+                    display: true,
+                    text: 'My Doughnut Chart'
+                }
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/ajaxVehicule.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moniteur index{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-5">Statistiques</h1>
+    <div class="mt-5 d-flex flex-row">
+        {#Select#}
+        <form id="formCategorie" class="form-floating w-50">
+            <select name="categorie" class="form-select" id="selectCateg">
+                {% for categ in lstCateg %}
+                    <option value="{{ categ.libelle }}">{{ categ.libelle }}</option>
+                {% endfor %}
+            </select>
+            <label for="selectCateg">Choisissez une catégorie</label>
+        </form>
+        {#Navigation#}
+        <div class="input-group w-50 d-flex flex-row justify-content-evenly align-content-end">
+            <form class="w-25" method="POST" action="{{ path("app_moniteur_dashboard") }}">
+                <input class="form-control btn btn-outline-secondary w-100" type="submit" value="Retour">
+            </form>
+        </div>
+    </div>
+    {#<h1>Vos statistiques</h1>
+    <select id="selectCateg">
+        {% for categ in lstCateg %}
+            <option value="{{ categ.libelle }}">{{ categ.libelle }}</option>
+        {% endfor %}
+    </select>#}
+    <br>
+    <div class="d-flex">
+        <div class="w-75 h-75 d-flex flex-column card">
+            <canvas id="chiffreAffaire"></canvas>
+            <h4 class="text-center">Chiffre d'affaire</h4>
+        </div>
+        <div class="w-25 align-self-center">
+            <canvas id="nbLceon"></canvas>
+            <h4 class="text-center">Nombre de leçons</h4>
+        </div>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function addData(chart, label, data) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(data);
+            });
+            chart.update();
+        }
+        function supprimerChar(chart) {
+            for (let i=0;i<4;i++){
+                chart.data.labels.pop();
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data.pop();
+                });
+            }
+            chart.update();
+        }
+
+
+        var dataStatNbLecon = {{ dataStatNbLecon|raw }}
+        var dataStatChiffreAffaire = {{ dataStatChiffreAffaire|raw }}
+            const cda = document.getElementById('chiffreAffaire');
+            charChiffreAffaire = new Chart(cda, {
+                type: 'bar',
+                data: {
+                    labels: ['Jour', 'Semaine', 'Mois', 'Trimestre'],
+                    datasets: [{
+                        label: "chiffre d'affaire",
+                        data: [4,5,8],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    events:['click']
+                }
+            });
+            const nbLecon = document.getElementById('nbLceon');
+
+            charNbLecon = new Chart(nbLecon, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Jour', 'Pas payé'],
+                    datasets: [{
+                        label: 'Nombre de lecon',
+                        data: [12,3],
+                        backgroundColor: [
+                            'rgba(1,44,248,0.2)',
+                            'rgb(248,2,2,0.2)',
+                            'rgb(45,255,0,0.2)',
+                            'rgba(54, 162, 235, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(1,44,248,1)',
+                            'rgb(248,2,2,1)',
+                            'rgb(45,255,0)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    title: {
+                        display: true,
+                        text: 'My Doughnut Chart'
+                    }
+                }
+            });
+
+        var select =document.querySelector("#selectCateg");
+        var selectedValue = select.value;
+        function affichageGraph(){
+            supprimerChar(charNbLecon);
+            supprimerChar(charChiffreAffaire);
+            addData(charNbLecon,'Jour',dataStatNbLecon[selectedValue]['Jour'])
+            addData(charNbLecon,'Semaine',dataStatNbLecon[selectedValue]['Semaine'])
+            addData(charNbLecon,'Mois',dataStatNbLecon[selectedValue]['Mois'])
+            addData(charNbLecon,'Trimestre',dataStatNbLecon[selectedValue]['Trimestre'])
+            addData(charChiffreAffaire,'Jour',dataStatChiffreAffaire[selectedValue]['Jour'])
+            addData(charChiffreAffaire,'Semaine',dataStatChiffreAffaire[selectedValue]['Semaine'])
+            addData(charChiffreAffaire,'Mois',dataStatChiffreAffaire[selectedValue]['Mois'])
+            addData(charChiffreAffaire,'Trimestre',dataStatChiffreAffaire[selectedValue]['Trimestre'])
+        }
+        affichageGraph();
+        select.addEventListener("change",()=>{
+            selectedValue = select.value;
+            affichageGraph();
+        })
+    </script>
+{% endblock %}
+

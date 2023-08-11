@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Eleve{% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column justify-content-center col-12">
+        <br>
+        <h1 class="text-center">Vos statistiques</h1>
+        {# Navigation #}
+        <div class="mt-5 d-flex flex-row justify-content-between col-8 row align-self-center">
+            <div class="form-floating w-25">
+                <select class="form-select" id="selectCateg">
+                    {% for categ in lstCateg %}
+                        <option value="{{ categ.libelle }}">{{ categ.libelle }}</option>
+                    {% endfor %}
+                </select>
+                <label for="floatingSelect">Choisissez une catégorie</label>
+            </div>
+            <div id="alert" class="alert alert-warning w-25 text-center visually-hidden"></div>
+            <form class="w-25" method="POST" action="{{ path("app_eleve_dashboard") }}">
+                <input class="form-control btn btn-outline-secondary w-50" type="submit" value="Retour">
+            </form>
+        </div>
+        <div class="align-self-center">
+            <canvas id="payeOuPas"></canvas>
+        </div>
+        <br>
+        <div class="text-center" id="montant"></div>
+
+
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var lesDataStat = {{ dataStat|raw }}
+        var lstSommePermis = {{ dataSommePermis|raw }}
+        var select =document.querySelector("#selectCateg");
+        var selectedValue = select.value;
+        var montant = document.querySelector("#montant")
+
+        montant.innerHTML = "<p>Le montant total de votre permis est de "+lstSommePermis[selectedValue].toFixed(2).toString()+" euros</p>"
+
+
+        function addData(chart, label, data) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(data);
+            });
+            chart.update();
+        }
+        function supprimerChar(chart) {
+            for (let i=0;i<2;i++){
+                chart.data.labels.pop();
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data.pop();
+                });
+            }
+            chart.update();
+        }
+
+        select.addEventListener("change",()=>{
+            selectedValue = select.value;
+            supprimerChar(myChart);
+            addData(myChart,'paye',lesDataStat[selectedValue]['paye'])
+            addData(myChart,'nonPayee',lesDataStat[selectedValue]['nonPayee'])
+            montant.innerHTML = "<p>Le montant total de votre permis est de "+lstSommePermis[selectedValue].toFixed(2).toString()+" euros</p>"
+
+
+        })
+
+        const cda = document.getElementById('payeOuPas');
+        var myChart = new Chart(cda, {
+            type: 'doughnut',
+            data: {
+                labels: ['Payé', 'Pas payé'],
+                datasets: [{
+                    label: 'Nombre de lecon',
+                    data: [12,3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                title: {
+                    display: true,
+                    text: 'My Doughnut Chart'
+                }
+            }
+        });
+
+
+    </script>
+{% endblock %}
+

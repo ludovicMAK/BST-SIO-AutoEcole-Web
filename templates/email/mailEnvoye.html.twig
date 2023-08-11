@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation{% endblock %}
+
+{% block body %}
+    <div class="container flex-column align-content-center justify-content-center">
+        <div class="alert-info rounded">Un mail vous a été envoyé à l'adresse suivante: {{ email }}, suivez les instructions pour finaliser votre inscription.</div>
+    </div>
+{% endblock %}

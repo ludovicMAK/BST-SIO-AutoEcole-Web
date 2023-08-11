@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Eleve index{% endblock %}
+
+{% block body %}
+    <h1>Eleve index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Sexe</th>
+                <th>DateDeNaissance</th>
+                <th>Adresse</th>
+                <th>CodePostal</th>
+                <th>Ville</th>
+                <th>Telephone</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for eleve in eleves %}
+            <tr>
+                <td>{{ eleve.id }}</td>
+                <td>{{ eleve.nom }}</td>
+                <td>{{ eleve.prenom }}</td>
+                <td>{{ eleve.sexe }}</td>
+                <td>{{ eleve.dateDeNaissance ? eleve.dateDeNaissance|date('Y-m-d') : '' }}</td>
+                <td>{{ eleve.adresse }}</td>
+                <td>{{ eleve.codePostal }}</td>
+                <td>{{ eleve.ville }}</td>
+                <td>{{ eleve.telephone }}</td>
+                <td>
+                    <a href="{{ path('app_eleve_show', {'id': eleve.id}) }}">show</a>
+                    <a href="{{ path('app_eleve_edit', {'id': eleve.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_eleve_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% block body%}
+    <h3 class="text-center">Sélectionnez un moniteur:</h3>
+    <div class="d-flex flex-row justify-content-center">
+        <select class="form-select w-50" id="selectMoniteur" >
+            {% if lesMoniteursDispo is empty  %}
+                <option value="0">Nous n'avons pas de moniteur à cette date</option>
+            {% elseif not lesMoniteursDispo is empty %}
+                <option value="0">Les moniteurs</option>
+                {% for moniteur in lesMoniteursDispo %}
+                    <option value="{{ moniteur.id }}">{{ moniteur.nom }} {{ moniteur.prenom }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <input type="hidden" id="idMoniteur" name="idMoniteur" value="0">
+    </div>
+    <br>
+    <h3 class="text-center">Veuillez choisir un véhicule:</h3>
+    <div class="d-flex justify-content-center">
+        <select class="form-select w-50" id="selectVehicule" >
+            {% if lesVehiculesDispo is empty  %}
+                <option value="0">Nous n'avons pas de véhicule disponible à cette date</option>
+            {% elseif not lesVehiculesDispo is empty %}
+                <option value="0">Les véhicules</option>
+                {% for vehicule in lesVehiculesDispo %}
+                    <option value="{{ vehicule.id }}">{{ vehicule.marque }} {{ vehicule.modele }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <input type="hidden" id="idVehicule" name="idVehicule" value="0">
+    </div>
+    <br>
+
+{% endblock %}

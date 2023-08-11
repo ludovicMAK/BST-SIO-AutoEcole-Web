@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestionnaire catégorie{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-5">Gestion des catégories</h1>
+
+    <div class="mt-5 d-flex flex-row">
+        {#Navigation#}
+        <div class="w-50">
+            {#Spacer#}
+        </div>
+        <div class="input-group w-50 d-flex flex-row justify-content-evenly align-content-end">
+            <form class="w-50" method="POST" action="{{ path("app_categorie_new") }}">
+                <input class="form-control btn btn-outline-primary w-100" type="submit" value="Ajouter une catégorie">
+            </form>
+            <form class="w-25" method="POST" action="{{ path("app_user_dashboard") }}">
+                <input class="form-control btn btn-outline-secondary w-100" type="submit" value="Retour">
+            </form>
+        </div>
+    </div>
+    <br>
+    <table class="table">
+        <thead class="text-center">
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Prix</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tbody" class="text-center">
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.id }}</td>
+                <td>{{ categorie.libelle }}</td>
+                <td>{{ categorie.prix }}</td>
+                <td class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-between w-50">
+                        <a class="btn btn-outline-primary w-25" href="{{ path('app_categorie_edit', {'id': categorie.id}) }}">Modifier</a>
+                        {#<a class="form-control btn btn-outline-danger" href="{{ path('app_categorie_delete', {'id': categorie.id}) }}">Supprimer</a>#}
+                            {{ include('categorie/_delete_form.html.twig') }}
+
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

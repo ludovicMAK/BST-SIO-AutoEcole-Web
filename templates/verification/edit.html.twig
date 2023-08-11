@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Verification{% endblock %}
+
+{% block body %}
+    <h1>Edit Verification</h1>
+
+    {{ include('verification/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_verification_index') }}">back to list</a>
+
+    {{ include('verification/_delete_form.html.twig') }}
+{% endblock %}

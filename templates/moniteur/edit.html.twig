@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column justify-content-center col-6">
+        <br>
+        <h1 class="text-center">Modification du profil</h1>
+        {% if confirmation %}
+            <br>
+            <div class="alert-success rounded text-center">
+                {{ confirmation }}
+            </div>
+        {% endif %}
+        {% if error %}
+            <br>
+            <div class="alert-danger rounded text-center">
+                {{ error }}
+            </div>
+        {% endif %}
+        <br>
+        {{ include('moniteur/_form.html.twig', {'button_label': 'Valider'}) }}
+        <br>
+    </div>
+{% endblock %}

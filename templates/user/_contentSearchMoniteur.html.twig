@@ -1,0 +1,9 @@
+{% block body%}
+        <ul class="list-group lesMoniteurs ">
+            {% for moniteur in lesMoniteurs %}
+               <li class="list-group-item list-group-item-action unEleve" value="{{ moniteur.id }}" > {{ moniteur.nom }} {{ moniteur.prenom }} </li>
+            {% endfor %}
+        </ul>
+{% endblock %}
+
+

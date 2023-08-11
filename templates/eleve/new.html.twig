@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column justify-content-center col-6">
+        <br>
+        <h1 class="text-center">Inscription</h1>
+        <br>
+        {% if confirmation %}
+            <div class="alert-success rounded text-center">
+                {{ confirmation }}
+            </div>
+            <br>
+        {% endif %}
+        {% if error %}
+            <div class="alert-danger rounded text-center">
+                {{ error }}
+            </div>
+            <br>
+        {% endif %}
+        {{ include('eleve/_form.html.twig') }}
+        <br>
+    </div>
+{% endblock %}

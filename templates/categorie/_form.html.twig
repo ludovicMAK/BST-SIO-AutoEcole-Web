@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <br>
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-outline-success">{{ button_label|default('Ajouter la catégorie') }}</button>
+        <a class="btn btn-outline-secondary w-25" href="{{ path("app_categorie_index") }}">Retour</a>
+    </div>
+{{ form_end(form) }}
